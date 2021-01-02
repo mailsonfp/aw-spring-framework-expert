@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>15</java.version>
+		<thymeleaf-layout-dialect.version>2.4.1</thymeleaf-layout-dialect.version>
 	</properties>
 
 	<dependencies>
@@ -74,6 +75,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency> -->
+		
+		<dependency>
+		    <groupId>nz.net.ultraq.thymeleaf</groupId>
+		    <artifactId>thymeleaf-layout-dialect</artifactId>		    
+		</dependency>
 	</dependencies>
 
 	<build>
