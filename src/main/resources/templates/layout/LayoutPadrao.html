@@ -13,6 +13,8 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/algaworks.min.css}"/>
 	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/application.css}"/>
 	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/brewer.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-switch.min.css}"/>
+	<link rel="shortcut icon" th:href="@{/images/favicon.png}"/>
 </head>
 <body>
 	<div class="aw-layout-page">
@@ -29,5 +31,6 @@
 	<script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
 	<script th:src="@{/javascripts/vendors/jquery.maskMoney.min.js}"></script>
 	<script th:src="@{/javascripts/brewer.js}"></script>
+	<th:block layout:fragment="javascript-extra"></th:block>
 </body>
 </html>
