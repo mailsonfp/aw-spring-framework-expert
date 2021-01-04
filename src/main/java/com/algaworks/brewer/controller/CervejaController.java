@@ -15,9 +15,13 @@ import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.model.enums.Origem;
 import com.algaworks.brewer.model.enums.Sabor;
 import com.algaworks.brewer.repository.EstiloRepository;
+import com.algaworks.brewer.service.CervejaService;
 
 @Controller
 public class CervejaController {
+	
+	@Autowired
+	CervejaService cervejaService;
 	
 	@Autowired
 	private EstiloRepository estiloRepository;
@@ -33,13 +37,14 @@ public class CervejaController {
 	
 	@RequestMapping(value = "/cervejas/novo", method = RequestMethod.POST)
 	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, Model model, RedirectAttributes attributes) {
+		
 		if (result.hasErrors()) {
 			return novo(cerveja);
 		}
+		 
 		
-		// Salvar no banco de dados...
+		cervejaService.salvar(cerveja);
 		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso!");
-		System.out.println(">>> sku: " + cerveja.getSku());
 		return new ModelAndView("redirect:/cervejas/novo");
 	}
 }
