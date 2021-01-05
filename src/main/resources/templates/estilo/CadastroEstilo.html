@@ -19,11 +19,14 @@
 	</div>
 	
 	<div class="container-fluid">
-		<form>
+		<form method="POST" th:object="${estilo}" class="form-vertical  js-form-loading">
+			<th:block th:include="fragments/MensagensErroValidacao"></th:block>
+			<th:block th:include="fragments/MensagemSucesso"></th:block>
+				
 			<div class="row">
-				<div class="form-group  col-sm-4">
+				<div class="form-group  col-sm-4" th:classappend="${#fields.hasErrors('nome')} ? has-error">
 					<label for="nome">Nome</label>
-					<input type="text" class="form-control" id="nome" autofocus="autofocus"/>
+					<input type="text" class="form-control" id="nome" autofocus="autofocus" th:field="*{nome}"/>
 				</div>
 			</div>
 				
