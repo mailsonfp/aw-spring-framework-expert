@@ -14,8 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.model.enums.Origem;
 import com.algaworks.brewer.model.enums.Sabor;
-import com.algaworks.brewer.repository.EstiloRepository;
 import com.algaworks.brewer.service.CervejaService;
+import com.algaworks.brewer.service.EstiloService;
 
 @Controller
 public class CervejaController {
@@ -24,13 +24,13 @@ public class CervejaController {
 	CervejaService cervejaService;
 	
 	@Autowired
-	private EstiloRepository estiloRepository;
+	private EstiloService estiloService;
 	
 	@RequestMapping("/cervejas/novo")
 	public ModelAndView novo(Cerveja cerveja) {
 		ModelAndView mv = new ModelAndView("cerveja/CadastroCerveja");
 		mv.addObject("sabores", Sabor.values());
-		mv.addObject("estilos", estiloRepository.findAll());
+		mv.addObject("estilos", estiloService.listar());
 		mv.addObject("origens", Origem.values());
 		return mv;
 	}
