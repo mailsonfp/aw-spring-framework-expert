@@ -18,6 +18,7 @@ import com.algaworks.brewer.service.CervejaService;
 import com.algaworks.brewer.service.EstiloService;
 
 @Controller
+@RequestMapping("/cervejas")
 public class CervejaController {
 	
 	@Autowired
@@ -26,7 +27,7 @@ public class CervejaController {
 	@Autowired
 	private EstiloService estiloService;
 	
-	@RequestMapping("/cervejas/novo")
+	@RequestMapping("/novo")
 	public ModelAndView novo(Cerveja cerveja) {
 		ModelAndView mv = new ModelAndView("cerveja/CadastroCerveja");
 		mv.addObject("sabores", Sabor.values());
@@ -35,7 +36,7 @@ public class CervejaController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/cervejas/novo", method = RequestMethod.POST)
+	@RequestMapping(value = "/novo", method = RequestMethod.POST)
 	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, Model model, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
