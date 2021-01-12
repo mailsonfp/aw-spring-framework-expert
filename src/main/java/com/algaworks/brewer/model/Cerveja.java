@@ -82,6 +82,12 @@ public class Cerveja {
 	@JoinColumn(name = "codigo_estilo")
 	private Estilo estilo;
 	
+	private String foto;
+
+	@Column(name = "content_type")
+	private String contentType;
+
+	
 	@PrePersist
 	@PreUpdate
 	private void prePersistUpdate() {
