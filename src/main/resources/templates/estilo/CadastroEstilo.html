@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="'layout/LayoutPadrao'">
+	layout:decorator="'layout/LayoutPadrao'"
+	xmlns:brewer="http://brewer.algaworks.com">
 
 <head>
 	<title>Cadastro de estilo</title>
@@ -20,11 +21,10 @@
 	
 	<div class="container-fluid">
 		<form method="POST" th:object="${estilo}" class="form-vertical  js-form-loading">
-			<th:block th:include="fragments/MensagensErroValidacao"></th:block>
-			<th:block th:include="fragments/MensagemSucesso"></th:block>
+			<brewer:message/>
 				
 			<div class="row">
-				<div class="form-group  col-sm-4" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+				<div class="form-group  col-sm-4"  brewer:classforerror="nome">
 					<label for="nome">Nome</label>
 					<input type="text" class="form-control" id="nome" autofocus="autofocus" th:field="*{nome}"/>
 				</div>
