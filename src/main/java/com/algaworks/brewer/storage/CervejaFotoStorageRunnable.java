@@ -9,17 +9,17 @@ public class CervejaFotoStorageRunnable implements Runnable {
 
 	private MultipartFile[] files;
 	private DeferredResult<CervejaFotoDTO> resultado;
+	private CervejaFotoStorage fotoStorage;
 	
-	public CervejaFotoStorageRunnable(MultipartFile[] files, DeferredResult<CervejaFotoDTO> resultado) {
+	public CervejaFotoStorageRunnable(MultipartFile[] files, DeferredResult<CervejaFotoDTO> resultado, CervejaFotoStorage fotoStorage) {
 		this.files = files;
 		this.resultado = resultado;
+		this.fotoStorage = fotoStorage;
 	}
 
 	@Override
-	public void run() {
-		System.out.println(">>> files: " + files[0].getSize());
-		// TODO: Salvar a foto no sistema de arquivos...
-		String nomeFoto = files[0].getOriginalFilename();
+	public void run() {				
+		String nomeFoto = this.fotoStorage.salvarTemporariamente(files);
 		String contentType = files[0].getContentType();
 		resultado.setResult(new CervejaFotoDTO(nomeFoto, contentType));
 	}
