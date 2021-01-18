@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +27,12 @@ public class CervejaService {
 		return cervejaRepository.findAll();
 	}
 	
-	public List<Cerveja> listarComFiltros(CervejaFilter filtro){
-		return cervejaRepository.filtrar(filtro);
+	public Page<Cerveja> listar(Pageable pageable){
+		return cervejaRepository.findAll(pageable);
+	}
+	
+	public Page<Cerveja> listarComFiltros(CervejaFilter filtro, Pageable pageable){
+		return cervejaRepository.filtrar(filtro, pageable);
 	}
 	
 	@Transactional
