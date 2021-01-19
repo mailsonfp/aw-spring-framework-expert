@@ -14,6 +14,8 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.util.ObjectUtils;
 
 import com.algaworks.brewer.model.Cerveja;
@@ -26,11 +28,19 @@ public class CervejaRepositoryImpl implements CervejaRepositoryQueries {
 	
 	@Override
 	public Page<Cerveja> filtrar(CervejaFilter filtro, Pageable pageable) {
-		CriteriaBuilder criteria = manager.getCriteriaBuilder();
-		CriteriaQuery<Cerveja> query = criteria.createQuery(Cerveja.class);
+		CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+		CriteriaQuery<Cerveja> query = criteriaBuilder.createQuery(Cerveja.class);
 		Root<Cerveja> root = query.from(Cerveja.class);										
 		
-		query.where(adicionarFiltro(filtro, root));	
+		query.where(adicionarFiltro(filtro, root));
+				
+		if(!pageable.getSort().isEmpty()) {
+			Sort sort = pageable.getSort();
+			Order order = sort.iterator().next();
+			String prop = order.getProperty();
+			
+			query.orderBy(order.isAscending() ? criteriaBuilder.asc(root.get(prop)) : criteriaBuilder.desc(root.get(prop)));
+		}
 		
 		int paginaAtual = pageable.getPageNumber();
 		int totalRegistrosPorPagina = pageable.getPageSize();
