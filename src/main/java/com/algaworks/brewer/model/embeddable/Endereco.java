@@ -34,4 +34,12 @@ public class Endereco implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "codigo_cidade")
 	private Cidade cidade;
+	
+	public String getNomeCidadeSiglaEstado() {
+		if (this.cidade != null) {
+			return this.cidade.getNome() + "/" + this.cidade.getEstado().getSigla();
+		}
+		
+		return null;
+	}
 }

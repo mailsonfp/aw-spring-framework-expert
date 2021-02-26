@@ -1,17 +1,23 @@
 package com.algaworks.brewer.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.algaworks.brewer.controller.page.PageWrapper;
 import com.algaworks.brewer.model.Cliente;
 import com.algaworks.brewer.model.enums.TipoPessoa;
+import com.algaworks.brewer.repository.filter.ClienteFilter;
 import com.algaworks.brewer.service.ClienteService;
 import com.algaworks.brewer.service.EstadoService;
 import com.algaworks.brewer.service.exception.CpfCnpjClienteJaCadastradoException;
@@ -25,6 +31,16 @@ public class ClienteController {
 	
 	@Autowired
 	private EstadoService estadoService;
+	
+	@GetMapping
+	public ModelAndView pesquisar(ClienteFilter clienteFilter, BindingResult result, @PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest) {
+		ModelAndView mv = new ModelAndView("cliente/PesquisaClientes");
+		mv.addObject("tiposPessoa", TipoPessoa.values());
+		
+		PageWrapper<Cliente> paginaWrapper = new PageWrapper<>(clienteService.filtrar(clienteFilter, pageable), httpServletRequest);
+		mv.addObject("pagina", paginaWrapper);
+		return mv;
+	}
 	
 	@RequestMapping("/novo")
 	public ModelAndView novo(Cliente cliente) {
