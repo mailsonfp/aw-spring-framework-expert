@@ -1,4 +1,4 @@
-package com.algaworks.brewer.config;
+package com.algaworks.brewer.config.format;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -7,8 +7,6 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-
-import com.algaworks.brewer.config.format.TemporalFormatter;
 
 @Component
 public class LocalTimeFormatter extends TemporalFormatter<LocalTime> {
