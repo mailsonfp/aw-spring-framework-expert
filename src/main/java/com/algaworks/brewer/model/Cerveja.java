@@ -1,5 +1,6 @@
 package com.algaworks.brewer.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -32,8 +33,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Cerveja {
+public class Cerveja implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
