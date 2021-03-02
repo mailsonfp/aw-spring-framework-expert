@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.algaworks.brewer.model.Usuario;
-import com.algaworks.brewer.repository.helper.usuarios.UsuarioRepositoryQueries;
+import com.algaworks.brewer.repository.helper.usuario.UsuarioRepositoryQueries;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>, UsuarioRepositoryQueries {
