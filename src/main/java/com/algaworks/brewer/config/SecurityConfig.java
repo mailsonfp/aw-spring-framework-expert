@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {	
@@ -40,8 +41,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.formLogin()
 					.loginPage("/login")
 					.permitAll()
-					.and()
-			.csrf().disable();
+			.and()
+				.logout()
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+			.and()
+				.exceptionHandling()
+				.accessDeniedPage("/403");
 	}
 	
 	@Bean
