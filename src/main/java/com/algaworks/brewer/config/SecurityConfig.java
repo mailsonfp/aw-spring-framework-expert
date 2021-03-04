@@ -43,10 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.permitAll()
 			.and()
 				.logout()
-					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.and()
-				.exceptionHandling()
-				.accessDeniedPage("/403");
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 	}
 	
 	@Bean
