@@ -40,4 +40,8 @@ public class UsuarioService {
 		}
 		usuarioRepository.save(usuario);
 	}
+	
+	public Optional<Usuario> buscarUsuarioAtivoPorEmail(String email){
+		return usuarioRepository.buscarUsuarioAtivoPorEmail(email);
+	}
 }

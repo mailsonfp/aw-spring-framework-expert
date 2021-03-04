@@ -19,6 +19,7 @@
 		<thymeleaf-layout-dialect.version>2.4.1</thymeleaf-layout-dialect.version>
 		<thumbnailator.version>0.4.8</thumbnailator.version>
 		<thymeleaf-extras-data-attribute.version>2.0.1</thymeleaf-extras-data-attribute.version>
+		<thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
 		<commons-beanutils.version>1.9.2</commons-beanutils.version>
 	</properties>
 
@@ -47,10 +48,10 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
-		</dependency> -->
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
