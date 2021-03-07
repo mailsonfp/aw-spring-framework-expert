@@ -26,6 +26,7 @@ import com.algaworks.brewer.model.enums.TipoPessoa;
 import com.algaworks.brewer.model.validation.ClienteGroupSequenceProvider;
 import com.algaworks.brewer.model.validation.group.CnpjGroup;
 import com.algaworks.brewer.model.validation.group.CpfGroup;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -62,7 +63,8 @@ public class Cliente implements Serializable{
 
 	@Email(message = "E-mail inválido")
 	private String email;
-
+	
+	@JsonIgnore
 	@Embedded
 	private Endereco endereco;
 	
