@@ -1,5 +1,6 @@
 package com.algaworks.brewer.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,10 @@ public class ClienteService {
 		}
 		
 		clienteRepository.save(cliente);
+	}
+
+	public List<Cliente> buscarPorNome(String nome) {		
+		return clienteRepository.findByNomeStartingWithIgnoreCase(nome);
 	}	
 	
 }

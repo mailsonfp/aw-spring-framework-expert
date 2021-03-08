@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algaworks.brewer.dto.CervejaDTO;
 import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.repository.CervejaRepository;
 import com.algaworks.brewer.repository.filter.CervejaFilter;
@@ -40,5 +41,9 @@ public class CervejaService {
 		cervejaRepository.save(cerveja);
 		
 		publisher.publishEvent(new CervejaFotoEvent(cerveja));
+	}
+
+	public List<CervejaDTO> buscarPorSkuOuNome(String skuOuNome) {		
+		return cervejaRepository.buscarPorSkuOuNome(skuOuNome);
 	}
 }
