@@ -74,11 +74,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency>
+		
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
-		</dependency> -->
+		</dependency>
 		
 		<dependency>
 		    <groupId>nz.net.ultraq.thymeleaf</groupId>
@@ -122,6 +123,13 @@
     		<version>${commons-beanutils.version}</version>
     		<scope>compile</scope>
 		</dependency>
+		
+		<!-- JUnit -->
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <scope>test</scope>
+      </dependency>
 	</dependencies>
 
 	<build>
