@@ -2,9 +2,14 @@ package com.algaworks.brewer.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.algaworks.brewer.model.enums.StatusVenda;
 
@@ -34,7 +40,7 @@ public class Venda implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long codigo;
+	private Long codigo;	
 	
 	@Column(name = "data_criacao")
 	private LocalDateTime dataCriacao;
@@ -46,12 +52,12 @@ public class Venda implements Serializable {
 	private BigDecimal valorDesconto;
 	
 	@Column(name = "valor_total")
-	private BigDecimal valorTotal;
+	private BigDecimal valorTotal = new BigDecimal(0);
 	
 	private String observacao;
 	
 	@Column(name = "data_entrega")
-	private LocalDateTime dataEntrega;
+	private LocalDateTime dataHoraEntrega;
 	
 	@ManyToOne
 	@JoinColumn(name = "codigo_cliente")
@@ -62,8 +68,42 @@ public class Venda implements Serializable {
 	private Usuario usuario;
 	
 	@Enumerated(EnumType.STRING)
-	private StatusVenda status;
+	private StatusVenda status = StatusVenda.ORCAMENTO;;
 
-	@OneToMany(mappedBy = "venda")
-	private List<ItemVenda> itens;
+	@OneToMany(mappedBy = "venda",  cascade = CascadeType.ALL)
+	private List<ItemVenda> itens = new ArrayList<>();;
+	
+	@Transient
+	private LocalDate dataEntrega;
+
+	@Transient
+	private LocalTime horarioEntrega;
+	
+	@Transient
+	private String uuid;
+	
+	public boolean isNova() {
+		return codigo == null;
+	}
+	
+	public void adicionarItens(List<ItemVenda> itens) {
+		this.itens = itens;
+		this.itens.forEach(i -> i.setVenda(this));
+	}
+	
+	public void calcularValorTotal() {
+		BigDecimal valorTotalItens = getItens().stream()
+				.map(ItemVenda::getValorTotal)
+				.reduce(BigDecimal::add)
+				.orElse(BigDecimal.ZERO);
+		
+		this.valorTotal = calcularValorTotal(valorTotalItens, getValorFrete(), getValorDesconto());
+	}
+	
+	private BigDecimal calcularValorTotal(BigDecimal valorTotalItens, BigDecimal valorFrete, BigDecimal valorDesconto) {
+		BigDecimal valorTotal = valorTotalItens
+				.add(Optional.ofNullable(valorFrete).orElse(BigDecimal.ZERO))
+				.subtract(Optional.ofNullable(valorDesconto).orElse(BigDecimal.ZERO));
+		return valorTotal;
+	}
 }

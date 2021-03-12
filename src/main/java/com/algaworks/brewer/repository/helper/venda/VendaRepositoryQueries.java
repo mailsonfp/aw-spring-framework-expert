@@ -1,5 +1,12 @@
 package com.algaworks.brewer.repository.helper.venda;
 
-public interface VendaRepositoryQueries {
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import com.algaworks.brewer.model.Venda;
+import com.algaworks.brewer.repository.filter.VendaFilter;
+
+public interface VendaRepositoryQueries {
+	
+	public Page<Venda> filtrar(VendaFilter filtro, Pageable pageable);
 }
