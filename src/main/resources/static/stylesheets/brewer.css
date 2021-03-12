@@ -178,10 +178,27 @@
 	padding: 0px 5px !important;
 }
 
+/* Box */
+.negativo.aw-box__value {
+	color: red;
+}
+
 .bw-tabela-item:after {
 	clear: both;
 	display: block;
     content: "";
+}
+
+/* Tabela Item */
+.bw-tabela-item {
+	position: relative; /* Para que o painel de exclusão apareça dentro da linha */
+	
+	padding: 15px 0;
+	
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
 }
 
 .bw-tabela-item ~ .bw-tabela-item {
@@ -239,19 +256,41 @@
 	font-size: 1.6em;
 }
 
-/* Tabela Item */
-.bw-tabela-item {
-	position: relative; /* Para que o painel de exclusão apareça dentro da linha */
+.bw-tabela-item__painel-exclusao {
+    position: absolute;
+    top: 0;
+    right: 100000px;
+	height: 100%;
+    width: 50%;
+    
+    text-align: center;
+    padding-top: 35px;
+    
+	background-color: #f0ad4e;
 	
-	padding: 15px 0;
-	
-	user-select: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
+	opacity: 0;
+	transition: opacity 0.5s;
+}
+
+.solicitando-exclusao .bw-tabela-item__painel-exclusao {
+	right: 0;
+	opacity: 1;
+}
+
+.bw-tabela-item__titulo-exclusao {
+    display: block;
+    margin-bottom: 5px;
+    
+	color: #fff;
+    font-size: 1.3em;
 }
 
 @media (min-width: 768px) { /* screen-sm-min */
+	.bw-tabela-item__painel-exclusao {
+			width: 40%;
+			padding-top: 10px;
+	}
+	
 	.bw-tabela-item__coluna {
 		float: left;
 		margin-left: 0px;

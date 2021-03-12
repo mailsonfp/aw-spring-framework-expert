@@ -14,6 +14,7 @@ import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.repository.CervejaRepository;
 import com.algaworks.brewer.repository.filter.CervejaFilter;
 import com.algaworks.brewer.service.event.CervejaFotoEvent;
+import com.algaworks.brewer.service.exception.CervejaNaoEncontradaException;
 
 @Service
 public class CervejaService {
@@ -23,6 +24,10 @@ public class CervejaService {
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
+	
+	public Cerveja buscarPorCodigo(Long codigoCerveja) {
+		return cervejaRepository.findById(codigoCerveja).orElseThrow(() -> new CervejaNaoEncontradaException("Não foi possível localizar a cerveja com o código informado"));
+	}
 	
 	public List<Cerveja> listar(){
 		return cervejaRepository.findAll();
