@@ -85,6 +85,11 @@ public class CervejaFotoStorageLocal implements CervejaFotoStorage {
 		}
 	}
 	
+	@Override
+	public byte[] recuperarThumbnail(String fotoCerveja) {
+		return recuperar("thumbnail." + fotoCerveja);
+	}
+	
 	private void criarPastas() {
 		try {
 			Files.createDirectories(this.local);
