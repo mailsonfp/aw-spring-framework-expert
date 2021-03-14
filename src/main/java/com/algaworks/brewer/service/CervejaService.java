@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.brewer.dto.CervejaDTO;
+import com.algaworks.brewer.dto.ValorItensEstoque;
 import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.repository.CervejaRepository;
 import com.algaworks.brewer.repository.filter.CervejaFilter;
@@ -68,5 +69,9 @@ public class CervejaService {
 		} catch (DataIntegrityViolationException e) {
 			throw new ImpossivelExcluirEntidadeException("Impossível apagar cerveja. Já foi usada em alguma venda.");
 		}
+	}
+
+	public ValorItensEstoque valorItensEstoque() {		
+		return cervejaRepository.valorItensEstoque();
 	}
 }
