@@ -48,8 +48,7 @@ public class Usuario implements Serializable {
 	@NotBlank(message = "E-mail é obrigatório")
 	@Email(message = "E-mail inválido")
 	private String email;
-	
-	@NotBlank(message = "A senha é obrigatória")
+		
 	private String senha;
 
 	private Boolean ativo;
