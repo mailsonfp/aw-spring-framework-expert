@@ -1,26 +1,35 @@
 package com.algaworks.brewer.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import com.algaworks.brewer.dto.VendaMes;
+import com.algaworks.brewer.dto.VendaOrigem;
 import com.algaworks.brewer.model.Venda;
 import com.algaworks.brewer.model.enums.StatusVenda;
 import com.algaworks.brewer.repository.VendaRepository;
 import com.algaworks.brewer.repository.filter.VendaFilter;
+import com.algaworks.brewer.service.event.venda.VendaEvent;
 
 @Service
 public class VendaService {
 
 	@Autowired
 	private VendaRepository vendaRepository;
+	
+	@Autowired
+	private ApplicationEventPublisher publisher;
 	
 	public Page<Venda> filtrar(VendaFilter filtro, Pageable pageable){
 		return vendaRepository.filtrar(filtro, pageable);
@@ -59,6 +68,8 @@ public class VendaService {
 	public void emitir(Venda venda) {
 		venda.setStatus(StatusVenda.EMITIDA);
 		salvar(venda);
+		
+		publisher.publishEvent(new VendaEvent(venda));
 	}
 
 	public Venda buscarPorCodigo(Long codigo) {
@@ -73,5 +84,25 @@ public class VendaService {
 		vendaExistente.setStatus(StatusVenda.CANCELADA);
 		vendaRepository.save(vendaExistente);
 	}
+	
+	public BigDecimal valorTotalNoAno() {
+		return vendaRepository.valorTotalNoAno();
+	}
+	
+	public BigDecimal valorTotalNoMes() {
+		return vendaRepository.valorTotalNoMes();
+	}
+	
+	public BigDecimal valorTicketMedioNoAno() {
+		return vendaRepository.valorTicketMedioNoAno();
+	}
+
+	public List<VendaMes> totalPorMes() {
+		return vendaRepository.totalPorMes();
+	}
+
+	public List<VendaOrigem> totalPorOrigem() {		
+		return vendaRepository.totalPorOrigem();
+	}	
 
 }
