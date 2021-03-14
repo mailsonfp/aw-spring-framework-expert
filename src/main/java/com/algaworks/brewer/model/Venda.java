@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.algaworks.brewer.model.enums.StatusVenda;
 
 import lombok.EqualsAndHashCode;
@@ -32,6 +35,7 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
+@DynamicUpdate
 @Entity
 @Table(name = "venda")
 public class Venda implements Serializable {
@@ -70,7 +74,7 @@ public class Venda implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private StatusVenda status = StatusVenda.ORCAMENTO;;
 
-	@OneToMany(mappedBy = "venda",  cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "venda",  cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ItemVenda> itens = new ArrayList<>();;
 	
 	@Transient
@@ -112,5 +116,18 @@ public class Venda implements Serializable {
 				.add(Optional.ofNullable(valorFrete).orElse(BigDecimal.ZERO))
 				.subtract(Optional.ofNullable(valorDesconto).orElse(BigDecimal.ZERO));
 		return valorTotal;
+	}
+	
+	public Long getDiasCriacao() {
+		LocalDate inicio = dataCriacao != null ? dataCriacao.toLocalDate() : LocalDate.now();
+		return ChronoUnit.DAYS.between(inicio, LocalDate.now());
+	}
+	
+	public boolean isSalvarPermitido() {
+		return !status.equals(StatusVenda.CANCELADA);
+	}
+	
+	public boolean isSalvarProibido() {
+		return !isSalvarPermitido();
 	}
 }

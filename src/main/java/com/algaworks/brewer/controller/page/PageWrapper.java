@@ -45,7 +45,7 @@ public class PageWrapper<T> {
 	}
 	
 	public String urlParaPagina(int pagina) {
-		return uriBuilder.replaceQueryParam("page", pagina).build(true).encode().toUriString();
+		return uriBuilder.replaceQueryParam("page", pagina).build(true).encode().toUriString().replaceAll("excluido", "");
 	}
 	
 	public String urlOrdenada(String propriedade) {
@@ -53,7 +53,7 @@ public class PageWrapper<T> {
 		
 		String valorSort = String.format("%s,%s", propriedade, inverterDirecao(propriedade));
 		
-		return uriBuilderOrder.replaceQueryParam("sort", valorSort).build(true).encode().toUriString();
+		return uriBuilderOrder.replaceQueryParam("sort", valorSort).build(true).encode().toUriString().replaceAll("excluido", "");
 	}
 	
 	public String inverterDirecao(String propriedade) {

@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.brewer.model.Venda;
@@ -27,22 +28,50 @@ public class VendaService {
 	
 	@Transactional
 	public Venda salvar(Venda venda) {
-		if (venda.isNova()) {
-			venda.setDataCriacao(LocalDateTime.now());
+		
+		if (venda.isSalvarProibido()) {
+			throw new RuntimeException("Usuário tentando salvar uma venda proibida");
 		}
 		
-		if (venda.getDataEntrega() != null) {
-			venda.setDataHoraEntrega(LocalDateTime.of(venda.getDataEntrega()
-					, venda.getHorarioEntrega() != null ? venda.getHorarioEntrega() : LocalTime.NOON));
+		try {
+			if (venda.isNova()) {
+				venda.setDataCriacao(LocalDateTime.now());
+			}else {
+				Venda vendaExistente = buscarPorCodigo(venda.getCodigo());
+				venda.setDataCriacao(vendaExistente.getDataCriacao());
+			}
+			
+			if (venda.getDataEntrega() != null) {
+				venda.setDataHoraEntrega(LocalDateTime.of(venda.getDataEntrega()
+						, venda.getHorarioEntrega() != null ? venda.getHorarioEntrega() : LocalTime.NOON));
+			}
+			
+			return vendaRepository.saveAndFlush(venda);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		return vendaRepository.saveAndFlush(venda);
+		return new Venda();
 	}
 	
 	@Transactional
 	public void emitir(Venda venda) {
 		venda.setStatus(StatusVenda.EMITIDA);
 		salvar(venda);
+	}
+
+	public Venda buscarPorCodigo(Long codigo) {
+		return vendaRepository.findById(codigo).orElse(null);
+	}
+	
+	@PreAuthorize("#venda.usuario == principal.usuario or hasRole('CANCELAR_VENDA')")
+	@Transactional
+	public void cancelar(Venda venda) {
+		Venda vendaExistente = buscarPorCodigo(venda.getCodigo());
+		
+		vendaExistente.setStatus(StatusVenda.CANCELADA);
+		vendaRepository.save(vendaExistente);
 	}
 
 }
