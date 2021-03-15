@@ -21,6 +21,7 @@
 		<thymeleaf-extras-data-attribute.version>2.0.1</thymeleaf-extras-data-attribute.version>
 		<thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
 		<commons-beanutils.version>1.9.2</commons-beanutils.version>
+		<jasperreports.version>6.13.0</jasperreports.version>
 	</properties>
 
 	<dependencies>
@@ -133,6 +134,18 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		
+		<dependency>
+		  <groupId>net.sf.jasperreports</groupId>
+			  <artifactId>jasperreports-functions</artifactId>
+			  <version>${jasperreports.version}</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>net.sf.jasperreports</groupId>
+		  <artifactId>jasperreports-functions</artifactId>
+		  <version>${jasperreports.version}</version>
 		</dependency>
 	</dependencies>
 
